@@ -91,11 +91,11 @@ const applyCredit = () => {
 
   RequestedValue = parseInt(prompt("Monto a solicitar"));
   installments = numInstallments()
-  interestPayable = CalculateInterest()
+  //interestPayable = CalculateInterest()
 };
+
 const creditList = () => alert("creditList");
 const CalculateInterest = () => alert("CalculateInterest");
-
 const exitMessage = () => alert("Fue un placer atenderlo");
 
 const numInstallments = () => {
@@ -107,14 +107,17 @@ const numInstallments = () => {
       prompt("Numero de Cuotas, No puede ser mayor a 60 ni menor a 1")
     );
 
-    if (!isNaN(installments)) {
-      installments = 1;
+    if (isNaN(result)) {
+      result = 1;
     }
-    if (installments < 1) {
+    console.log(result);
+
+    if (result < 1) {
       msn = "El numero de cuotas no puede ser menor a 1 \n";
-    } else if (installments > 60) {
-      msn = msn + "El numero de cuotas no puede ser mayor a 60 \n";
+    } else if (result > 60) {
+      msn = "El numero de cuotas no puede ser mayor a 60 \n";
     }
+    console.log(msn);
     if (msn != "") alert(msn);
   } while (msn != "");
   return result;
