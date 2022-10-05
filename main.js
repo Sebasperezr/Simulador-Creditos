@@ -1,7 +1,8 @@
 //Const
 const SALIR = "SALIR";
-const INTERES = 5;
+const INTEREST = 10;
 const MAXINSTALLMENTS = 60;
+const MAINSTALLMENTS = 1;
 //Informacion del Cliente
 let nombre = "";
 let cedula = "";
@@ -11,6 +12,8 @@ let RequestedValue = 0;
 let interestPayable = 0;
 let installments = 0;
 let TotalToPay = 0;
+let ValueInstallment = 0;
+let cantCredits = 0;
 
 const logIn = () => {
   let selectedOption = "";
@@ -88,15 +91,50 @@ const menuClient = () => {
 };
 
 const applyCredit = () => {
+  let selectedOption = 0;
+  do {
+    RequestedValue = parseInt(prompt("Monto a solicitar"));
+    installments = numInstallments();
+    interestPayable = CalculateInterest(RequestedValue);
+    TotalToPay = RequestedValue + interestPayable;
+    ValueInstallment = TotalToPay / installments;
+    selectedOption = parseInt(
+      prompt(
+        nombre +
+          "Estas Son las Condiciones del Credito \n" +
+          "Valor a desembolsar: $" +
+          RequestedValue +
+          "\nTotal a Pagar: $" +
+          TotalToPay +
+          "\nInteres E.A: " +
+          INTEREST +
+          "%" +
+          "\n" +
+          installments +
+          " cuotas de: $" +
+          ValueInstallment +
+          "\n" +
+          "\n" +
+          "1: ACEPTAR CREDITO\n 2: SIMULAR DE NUEVO\n 3:ATRAS"
+      )
+    );
 
-  RequestedValue = parseInt(prompt("Monto a solicitar"));
-  installments = numInstallments()
-  //interestPayable = CalculateInterest()
+    if (selectedOption == 1) {
+      cantCredits = cantCredits + 1;
+      alert("Credito aprobado por valor de " + RequestedValue);
+      selectedOption = 0;
+    } else if (selectedOption == 3) {
+      selectedOption = 0;
+    }
+  } while (selectedOption != 0);
 };
 
-const creditList = () => alert("creditList");
-const CalculateInterest = () => alert("CalculateInterest");
+const creditList = () =>
+  alert(nombre + " tiene " + cantCredits + " creditos con nosotros");
 const exitMessage = () => alert("Fue un placer atenderlo");
+const CalculateInterest = (RequestedValue) => {
+  return (RequestedValue * INTEREST) / 100;
+};
 
 const numInstallments = () => {
   let msn = "";
@@ -104,18 +142,25 @@ const numInstallments = () => {
   do {
     msn = "";
     result = parseInt(
-      prompt("Numero de Cuotas, No puede ser mayor a 60 ni menor a 1")
+      prompt(
+        "Numero de Cuotas, No puede ser mayor a " +
+          MAXINSTALLMENTS +
+          " ni menor a " +
+          MAINSTALLMENTS
+      )
     );
 
     if (isNaN(result)) {
-      result = 1;
+      result = MAINSTALLMENTS;
     }
     console.log(result);
 
-    if (result < 1) {
-      msn = "El numero de cuotas no puede ser menor a 1 \n";
-    } else if (result > 60) {
-      msn = "El numero de cuotas no puede ser mayor a 60 \n";
+    if (result < MAINSTALLMENTS) {
+      msn =
+        "El numero de cuotas no puede ser menor a " + MAINSTALLMENTS + " \n";
+    } else if (result > MAXINSTALLMENTS) {
+      msn =
+        "El numero de cuotas no puede ser mayor a " + MAXINSTALLMENTS + " \n";
     }
     console.log(msn);
     if (msn != "") alert(msn);
