@@ -4,16 +4,31 @@ const INTEREST = 10;
 const MAXINSTALLMENTS = 60;
 const MAINSTALLMENTS = 1;
 //Informacion del Cliente
-let nombre = "";
-let cedula = "";
+class Customer {
+  constructor(name, id, cantCredits) {
+    this.name = name;
+    this.id = id;
+    this.cantCredits = cantCredits;
+  }
+}
+const customers = [];
 
 //Informacion del Credito
-let RequestedValue = 0;
-let interestPayable = 0;
-let installments = 0;
-let TotalToPay = 0;
-let ValueInstallment = 0;
-let cantCredits = 0;
+
+class Credit {
+  constructor(RequestedValue = 0, interestPayable = 0, installments = 0, totalToPay = 0, valueInstallments = 0, idCustomer = 0) {
+    this.RequestedValue = RequestedValue;
+    this.interestPayable = interestPayable;
+    this.installments = installments;
+    this.totalToPay = totalToPay;
+    this.valueInstallments = valueInstallments;
+    this.idCustomer = idCustomer;
+
+  }
+
+}
+
+const credits = [];
 
 const logIn = () => {
   let selectedOption = "";
@@ -60,23 +75,29 @@ const menuAdmin = () => {
 
 const menuClient = () => {
   let selectedOption = "";
-  nombre = prompt("Digite su nombre");
-  cedula = prompt(nombre + " \n Digite su cedula");
+  let nombre = prompt("Digite su nombre");
+  let cedula = prompt(nombre + " \n Digite su cedula");
+  let customerArrayID = customers.findIndex(element => element.id == cedula);
+
+  if (customerArrayID == -1) {
+    customerArrayID = customers.push(new Customer(nombre, cedula, 0)) - 1;
+  }
+  let currentCustomer = customers[customerArrayID]
 
   do {
     selectedOption = prompt(
       "Bienvenido " +
-        nombre +
-        " \n 1: Solicitar Crediro \n 2: Mis Creditos \n 3: Menu anterior \n 4: Salir"
+      currentCustomer.name +
+      " \n 1: Solicitar Crediro \n 2: Mis Creditos \n 3: Menu anterior \n 4: Salir"
     );
 
     switch (selectedOption) {
       case "1":
-        applyCredit();
+        applyCredit(currentCustomer);
         break;
 
       case "2":
-        creditList();
+        creditList(currentCustomer);
         break;
       case "3":
         break;
@@ -90,38 +111,42 @@ const menuClient = () => {
   } while (selectedOption != "3");
 };
 
-const applyCredit = () => {
+const applyCredit = (currentCustomer) => {
+
+  let credit = new Credit()
   let selectedOption = 0;
+  credit.idCustomer = currentCustomer.id;
   do {
-    RequestedValue = parseInt(prompt("Monto a solicitar"));
-    installments = numInstallments();
-    interestPayable = CalculateInterest(RequestedValue);
-    TotalToPay = RequestedValue + interestPayable;
-    ValueInstallment = TotalToPay / installments;
+    credit.RequestedValue = parseInt(prompt("Monto a solicitar"));
+    credit.installments = numInstallments();
+    credit.interestPayable = CalculateInterest(credit.RequestedValue);
+    credit.TotalToPay = credit.RequestedValue + credit.interestPayable;
+    credit.ValueInstallment = credit.TotalToPay / credit.installments;
     selectedOption = parseInt(
       prompt(
-        nombre +
-          "Estas Son las Condiciones del Credito \n" +
-          "Valor a desembolsar: $" +
-          RequestedValue +
-          "\nTotal a Pagar: $" +
-          TotalToPay +
-          "\nInteres E.A: " +
-          INTEREST +
-          "%" +
-          "\n" +
-          installments +
-          " cuotas de: $" +
-          ValueInstallment +
-          "\n" +
-          "\n" +
-          "1: ACEPTAR CREDITO\n 2: SIMULAR DE NUEVO\n 3:ATRAS"
+        currentCustomer.name +
+        "Estas Son las Condiciones del Credito \n" +
+        "Valor a desembolsar: $" +
+        credit.RequestedValue +
+        "\nTotal a Pagar: $" +
+        credit.TotalToPay +
+        "\nInteres E.A: " +
+        INTEREST +
+        "%" +
+        "\n" +
+        credit.installments +
+        " cuotas de: $" +
+        credit.ValueInstallment +
+        "\n" +
+        "\n" +
+        "1: ACEPTAR CREDITO\n 2: SIMULAR DE NUEVO\n 3:ATRAS"
       )
     );
 
     if (selectedOption == 1) {
-      cantCredits = cantCredits + 1;
-      alert("Credito aprobado por valor de " + RequestedValue);
+      let customerArrayID = customers.indexOf(currentCustomer);
+      customers[customerArrayID].cantCredits = customers[customerArrayID].cantCredits + 1;
+      credits.push(credit);
       selectedOption = 0;
     } else if (selectedOption == 3) {
       selectedOption = 0;
@@ -129,8 +154,37 @@ const applyCredit = () => {
   } while (selectedOption != 0);
 };
 
-const creditList = () =>
-  alert(nombre + " tiene " + cantCredits + " creditos con nosotros");
+const creditList = (customer) => {
+  if (customer.cantCredits == 0) {
+    alert(customer.name + " No tiene creditos con nosotros");
+    return
+
+  }
+  let msn = "";
+  let totalToPay = 0;
+  credits.forEach(element => {
+    if(element.idCustomer == customer.id){
+    totalToPay+= element.TotalToPay ;
+    msn += "Valor desembolsado: $" +
+      element.RequestedValue +
+      "\nTotal a Pagar: $" +
+      element.TotalToPay +
+      "\nInteres E.A: " +
+      INTEREST +
+      "%" +
+      "\n" +
+      element.installments +
+      " cuotas de: $" +
+      element.ValueInstallment +
+      "\n" +
+      "===============================" +
+      "\n"
+    }
+  });
+  if (msn != "")
+    alert(msn +"Total a pagar: $"+totalToPay + "\n");
+}
+
 const exitMessage = () => alert("Fue un placer atenderlo");
 const CalculateInterest = (RequestedValue) => {
   return (RequestedValue * INTEREST) / 100;
@@ -144,16 +198,16 @@ const numInstallments = () => {
     result = parseInt(
       prompt(
         "Numero de Cuotas, No puede ser mayor a " +
-          MAXINSTALLMENTS +
-          " ni menor a " +
-          MAINSTALLMENTS
+        MAXINSTALLMENTS +
+        " ni menor a " +
+        MAINSTALLMENTS
       )
     );
 
     if (isNaN(result)) {
       result = MAINSTALLMENTS;
     }
-    console.log(result);
+
 
     if (result < MAINSTALLMENTS) {
       msn =
@@ -162,7 +216,7 @@ const numInstallments = () => {
       msn =
         "El numero de cuotas no puede ser mayor a " + MAXINSTALLMENTS + " \n";
     }
-    console.log(msn);
+
     if (msn != "") alert(msn);
   } while (msn != "");
   return result;
