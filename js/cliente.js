@@ -4,7 +4,9 @@ import { INTEREST, MAXINSTALLMENTS, MINISTALLMENTS } from './constantes.js';
 const buttonLogin = document.getElementById("buttonLogin");
 const buttonGetCredit = document.getElementById("buttonGetCredit");
 const buttonListCredit = document.getElementById("buttonCreditList");
-const buttonGetMenu = document.querySelector('button[type="buttonGetMenu"]')
+const buttonGetMenu1 = document.getElementById("buttonGetMenu1");
+const buttonGetMenu2 = document.getElementById("buttonGetMenu2");
+
 
 
 
@@ -125,19 +127,16 @@ const creditList = () => {
 
    credits.forEach(element => {
       if (element.idCustomer == currentCustomer.id) {
-         let aux = document.getElementById("cardCredit");
-         if (aux != null)
-            aux.remove()
+        
 
 
          console.log("si es")
 
          let creditList = document.createElement("div")
          creditList.id = "cardCredit";
-         creditList.className = "card"
+         creditList.className = "col-12  m-1 p-2"
          creditList.style.width = "18rem"
-         creditList.innerHTML = '<div class="card" style="width: 18rem;">'
-            + '<div class="card-body">'
+         creditList.innerHTML = '<div class="card">'
             + '    <h5 class="card-title">$'+element.totalToPay+'</h5>'
             + '    <h6 class="card-subtitle mb-2 text-muted">Total a pagar</h6>'
             + '    <p class="card-text mb-0">Monto desembolsado: $'+element.requestedValue+' </p>'
@@ -145,7 +144,7 @@ const creditList = () => {
             + '    <p class="card-text mb-0">Valor cuota: $'+element.valueInstallments+'</p>'
             + '    <p class="card-text mb-0">Interes: '+element.interest+'% </p>'
             + '</div>'
-            + ' </div>'
+          
          document.getElementById("divCreditList").appendChild(creditList)
       }
    });
@@ -186,7 +185,8 @@ const getMenu = () => {
 
 
 
-buttonGetMenu.addEventListener("click", getMenu);
+buttonGetMenu1.addEventListener("click", getMenu);
+buttonGetMenu2.addEventListener("click", getMenu);
 buttonLogin.addEventListener("click", getCustomerInfo);
 buttonGetCredit.addEventListener("click", getCredit);
 buttonListCredit.addEventListener("click", creditList);
