@@ -16,8 +16,8 @@ const customers = [];
 //Informacion del Credito
 
 class Credit {
-  constructor(RequestedValue = 0, interestPayable = 0, installments = 0, totalToPay = 0, valueInstallments = 0, idCustomer = 0) {
-    this.RequestedValue = RequestedValue;
+  constructor(requestedValue = 0, interestPayable = 0, installments = 0, totalToPay = 0, valueInstallments = 0, idCustomer = 0) {
+    this.requestedValue = requestedValue;
     this.interestPayable = interestPayable;
     this.installments = installments;
     this.totalToPay = totalToPay;

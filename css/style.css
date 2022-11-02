@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600;700&display=swap");
+
+
+* {
+    margin: 0;
+    padding: 0;
+
+    font-family: "Poppins", sans-serif;
+    text-decoration: none;
+    list-style-type: none;
+}
+
+
+a {
+    text-decoration: none;
+}
+
+header {
+    background-color: black;
+    color: white;
+    text-align: center;
+    width: 100%;
+    padding: 15px;
+}
+
+
+h1 {
+    font-weight: 800;
+}
+
+h2 {
+    font-weight: 700;
+}
+
+h3 {
+    font-weight: 600;
+}
+
+.width-100{
+    width: 100%;
+}
+.container-fluid {
+    padding: 0;
+    text-align: center;
+}
+
+.container-center {
+    height: 90vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-menu {
+    background-color:   black;
+    color: #fff;
+    height: 100px;
+    width: 300px;
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.num-installments{
+    background: black;
+    color: white;
+    margin-top: 25px;
+    text-align: center;
+    padding-block: 7px;
+    border-radius: 5px;
+}
