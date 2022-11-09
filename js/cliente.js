@@ -192,3 +192,4 @@ buttonGetCredit.addEventListener("click", getCredit);
 buttonListCredit.addEventListener("click", creditList);
 
 instalmentsRange.addEventListener("mousemove", function () { document.getElementById("numInstallments").innerHTML = instalmentsRange.value });
+instalmentsRange.addEventListener("touchmove", function () { document.getElementById("numInstallments").innerHTML = instalmentsRange.value });
