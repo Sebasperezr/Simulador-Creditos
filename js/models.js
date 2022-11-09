@@ -8,10 +8,12 @@ if(localStorage.getItem('credits')){
   credits = JSON.parse(localStorage.getItem('credits'))
 }
  class Customer {
-    constructor(name, id, cantCredits) {
+    constructor(name, id, cantCredits, dni) {
       this.name = name;
       this.id = id;
       this.cantCredits = cantCredits;
+      this.dni = dni;
+
     }
   }
 
@@ -28,4 +30,5 @@ if(localStorage.getItem('credits')){
     }
   
   }
- export{Customer,Credit,customers,credits};
+ export{Credit,customers,credits};
+ export{Customer};
