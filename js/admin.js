@@ -1,6 +1,6 @@
 
 
-import { Customer } from './models.js';
+import { spinner } from './utils/spinner.js';
 import { get } from './service/customerService.js';
 import { get as getCreditsAjax} from './service/creditService.js';
 const tbodyCustomerList = document.getElementById("tbodyCustomerList");
@@ -10,13 +10,16 @@ const sectionCustomerList = document.getElementById("customerList");
 
 
 
+
 const  getCustomerList = async () => {
    sectionCustomerList.style.display=""
    sectionCreditList.style.display="none"
    let aux = document.getElementById("tbodyCustomerList");
-   if (aux != null)
-      aux.innerHTML=""
+   if (aux != null) aux.innerHTML=""
+
+   spinner()   
    const customers = await get()
+   spinner(false) 
    customers.forEach(element => {
       let creditList = document.createElement("tr")
       creditList.id = `tr${element.id}`;
@@ -34,10 +37,14 @@ const  getCustomerList = async () => {
 const getCredits = async (idCustomer)=>{
    sectionCreditList.style.display=""
    sectionCustomerList.style.display="none"
-   const creditList = await getCreditsAjax(idCustomer)
+
    let aux = document.getElementById("crediList");
    if (aux != null)
       aux.innerHTML=""
+   spinner();
+   const creditList = await getCreditsAjax(idCustomer)
+   spinner(false);
+
    creditList.forEach(element => {
 
       let creditList = document.createElement("div")

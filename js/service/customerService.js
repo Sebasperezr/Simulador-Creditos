@@ -2,7 +2,7 @@
 
 
 
-import { URLAPI } from '../constantes.js';
+import { URLAPI } from '../utils/constantes.js';
 const urlCustomer = `${URLAPI}customer/`
 
 export const post = (customer) => {
