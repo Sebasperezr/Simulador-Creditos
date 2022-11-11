@@ -1,4 +1,5 @@
 import { Customer, customers, Credit, credits } from './utils/models.js';
+import { toast,icons, position } from './utils/alert.js';
 import { INTEREST, MAXINSTALLMENTS, MINISTALLMENTS } from './utils/constantes.js';
 
 const buttonLogin = document.getElementById("buttonLogin");
@@ -7,7 +8,11 @@ const buttonListCredit = document.getElementById("buttonCreditList");
 const buttonGetMenu1 = document.getElementById("buttonGetMenu1");
 const buttonGetMenu2 = document.getElementById("buttonGetMenu2");
 
-
+toast.fire({
+   icon: icons.question,
+   title: 'Signed in successfully',
+   position:position.topEnd,
+ })
 
 
 const sectionMenu = document.getElementById("menu");
