@@ -1,5 +1,5 @@
-import { Customer, customers, Credit, credits } from './models.js';
-import { INTEREST, MAXINSTALLMENTS, MINISTALLMENTS } from './constantes.js';
+import { Customer, customers, Credit, credits } from './utils/models.js';
+import { INTEREST, MAXINSTALLMENTS, MINISTALLMENTS } from './utils/constantes.js';
 
 const buttonLogin = document.getElementById("buttonLogin");
 const buttonGetCredit = document.getElementById("buttonGetCredit");
@@ -127,7 +127,7 @@ const creditList = () => {
 
    credits.forEach(element => {
       if (element.idCustomer == currentCustomer.id) {
-        
+
 
 
          console.log("si es")
@@ -137,14 +137,14 @@ const creditList = () => {
          creditList.className = "col-12  m-1 p-2"
          creditList.style.width = "18rem"
          creditList.innerHTML = '<div class="card">'
-            + '    <h5 class="card-title">$'+element.totalToPay+'</h5>'
+            + '    <h5 class="card-title">$' + element.totalToPay + '</h5>'
             + '    <h6 class="card-subtitle mb-2 text-muted">Total a pagar</h6>'
-            + '    <p class="card-text mb-0">Monto desembolsado: $'+element.requestedValue+' </p>'
-            + '    <p class="card-text mb-0">N° cuotas: '+element.installments+'</p>'
-            + '    <p class="card-text mb-0">Valor cuota: $'+element.valueInstallments+'</p>'
-            + '    <p class="card-text mb-0">Interes: '+element.interest+'% </p>'
+            + '    <p class="card-text mb-0">Monto desembolsado: $' + element.requestedValue + ' </p>'
+            + '    <p class="card-text mb-0">N° cuotas: ' + element.installments + '</p>'
+            + '    <p class="card-text mb-0">Valor cuota: $' + element.valueInstallments + '</p>'
+            + '    <p class="card-text mb-0">Interes: ' + element.interest + '% </p>'
             + '</div>'
-          
+
          document.getElementById("divCreditList").appendChild(creditList)
       }
    });
@@ -153,6 +153,7 @@ const creditList = () => {
 
 
 const getCustomerInfo = () => {
+   validLogin();
    let customer = new Customer();
    customer.name = document.getElementById("name").value;
    customer.id = document.getElementById("idUser").value;
@@ -182,8 +183,8 @@ const getMenu = () => {
 
 
 
-
-
+ 
+ 
 
 buttonGetMenu1.addEventListener("click", getMenu);
 buttonGetMenu2.addEventListener("click", getMenu);
