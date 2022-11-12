@@ -32,20 +32,20 @@
 
                         <div class="mb-2">
                             <label for="name" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="name">
+                            <input type="text" class="form-control" id="name" />
                         </div>
                         <div class="mb-2">
                             <label for="idUser" class="form-label">Cedula</label>
-                            <input type="number" class="form-control" id="idUser">
+                            <input type="number" class="form-control" id="dniUser" required>
                         </div>
                         <div class="row ">
+                            <div class="col-12 col-sm-6 mb-1">
+                                <button id="buttonLogin" class="btn btn-dark width-100" type="submit">Siguiente</button>
+                            </div>
                             <div class="col-12 col-sm-6 mb-1 ">
                                 <a href="../index.html">
                                     <button class="btn btn-dark width-100">Atras</button>
                                 </a>
-                            </div>
-                            <div class="col-12 col-sm-6">
-                                <button id="buttonLogin" class="btn btn-dark width-100">Siguiente</button>
                             </div>
                         </div>
 
@@ -74,26 +74,24 @@
             </div>
         </section>
 
-        <section id="getCredit" class="card" style="width: 40em; display: none;">
+        <section id="getCredit" class="card" style=" display: none;">
             <div class="card-body">
                 <div class="row p-3">
-
-
                     <div class="mb-3">
                         <label for="requestedValue" class="form-label">Monto a solicita</label>
                         <input type="number" class="form-control" id="requestedValue">
                     </div>
 
                     <div class="mb-3 row">
-                        <div class="col-11">
-                            <label for="installmentsRange" class="form-label">Numero de Cuotas</label>
+                        <div class="col-10">
+                            <label for="installmentsRange" class="form-label">N° Cuotas</label>
                             <input type="range" value="1" step="1" class="form-range" id="installmentsRange">
                         </div>
-                        <div id="numInstallments" class="col-1 num-installments">
+                        <div id="numInstallments" class="col-2 num-installments">
                             1
                         </div>
-
                     </div>
+
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-6 d-flex justify-content-center">
@@ -104,13 +102,11 @@
                             </div>
                         </div>
                     </div>
-
-
-
                 </div>
             </div>
         </section>
-        <section id="showCreditInfo" class="card" style="width: 40em; display:none ;">
+
+        <section id="showCreditInfo" class="card" style="width: 40em; display: none;">
             <div id="creditInfoFather" class="card-body">
             </div>
             <div class="card-footer">
@@ -125,14 +121,19 @@
             </div>
         </section>
 
-        <section id="creditList" style="display: none;">
-
-            <div class="row" id="divCreditList">
-
-            </div>
+        <section id="creditList" style="display: none; height: 95%; width: 100%;">
             <div class="row d-flex justify-content-center">
-                <button type="button" id="buttonGetMenu2" class="btn btn-dark width-100">Atras</button>
+                <div class="col-12 col-sm-6  mb-1">
+                    <button type="button" id="buttonGetMenu2" class="btn btn-dark width-100">Atras</button>
+                </div>
+                <div class="col-12 col-sm-6 mb-1">
+                    <a href="../index.html">
+                        <button class="btn btn-dark width-100 min-width-fit-content">Salir</button>
+                    </a>
+                </div>
             </div>
+
+            <div class="row justify-content-center" id="divCreditList"></div>
         </section>
 
     </main>
