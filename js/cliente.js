@@ -2,7 +2,7 @@ import { Customer, Credit } from './utils/models.js';
 import { alert, icons, position, toast } from './utils/alert.js';
 import { spinner } from './utils/spinner.js';
 import { INTEREST, MAXINSTALLMENTS, MINISTALLMENTS } from './utils/constantes.js';
-import { findByDni, save as saveCustomer, update as updateCustomer } from './service/customerService.js';
+import { findByDni, save as saveCustomer, update as updateCustomer, findById } from './service/customerService.js';
 import { save as saveCredit, list as listCredit } from './service/creditService.js';
 
 const buttonLogin = document.getElementById("buttonLogin");
@@ -13,27 +13,34 @@ const buttonGetMenu2 = document.getElementById("buttonGetMenu2");
 const buttonExit1 = document.getElementById("buttonExit1");
 const buttonExit2 = document.getElementById("buttonExit2");
 const buttonExit3 = document.getElementById("buttonExit3");
+const instalmentsRange = document.getElementById("installmentsRange");
 
 const sectionMenu = document.getElementById("menu");
 const sectionLogin = document.getElementById("login");
 const sectionCreditList = document.getElementById("creditList");
 const sectionGetCredit = document.getElementById("getCredit");
 const sectionShowCreditInfo = document.getElementById("showCreditInfo");
-const instalmentsRange = document.getElementById("installmentsRange");
+
+
 
 let currentCustomer = undefined;
 let credit;
 
-if(localStorage.getItem('currentCustomer')){
-   currentCustomer = JSON.parse(localStorage.getItem('currentCustomer'))
- }
 
- if(currentCustomer != undefined){
-   sectionMenu.style.display="";
-   sectionLogin.style.display="none";
-   console.log(currentCustomer)
- }
+const validActiveSesion = async () => {
+   console.log(JSON.parse(localStorage.getItem('currentCustomerID')))
+   if (localStorage.getItem('currentCustomerID')) {
+      let customerId = JSON.parse(localStorage.getItem('currentCustomerID'))
+      currentCustomer = await findById(customerId)
 
+      if (currentCustomer != undefined) {
+         sectionMenu.style.display = "";
+         sectionLogin.style.display = "none";
+         console.log(currentCustomer)
+      }
+   }
+}
+validActiveSesion()
 
 
 // const computedLocale = Intl.Locale.toString;
@@ -41,21 +48,26 @@ if(localStorage.getItem('currentCustomer')){
 
 
 const getCredit = () => {
+   document.getElementById("numInstallments").innerHTML = MINISTALLMENTS;
+   credit = new Credit();
+   let requestedValue = document.getElementById("requestedValue");
    sectionGetCredit.style.display = "";
+
    instalmentsRange.min = MINISTALLMENTS;
    instalmentsRange.value = MINISTALLMENTS;
    instalmentsRange.max = MAXINSTALLMENTS;
    sectionMenu.style.display = "none";
    sectionGetCredit.style.display = "";
 
-   let requestedValue = document.getElementById("requestedValue");
+   requestedValue.value = 0;
    let buttonNextGetCredit = document.getElementById("buttonNextGetCredit");
-   buttonNextGetCredit.addEventListener("click", () => { calculateCredit(requestedValue.value, instalmentsRange.value); showCredit(credit) });
+   buttonNextGetCredit.addEventListener("click", async () => {
+      await calculateCredit(requestedValue.value, instalmentsRange.value);
+      showCredit(credit)
+   });
 }
 
 const calculateCredit = (requestedValue, instalments) => {
-
-   credit = new Credit();
    credit.idCustomer = currentCustomer.id;
    credit.requestedValue = parseInt(requestedValue);
    credit.installments = parseInt(instalments);
@@ -112,30 +124,8 @@ const showCredit = (credit) => {
 
    let buttonAproveCredit = document.getElementById("buttonAproveCredit");
    let buttonRejectCredit = document.getElementById("buttonRejectCredit");
-
-   buttonAproveCredit.addEventListener("click", async () => {
-      spinner()
-      let auxCredit = await saveCredit(currentCustomer.id, credit)
-      if (auxCredit == undefined) {
-         toast.fire({
-            icon: icons.error,
-            title: "No se pudo generar el credito intentelo de nuevo",
-            position: position.topEnd
-         })
-         spinner(false)
-         return;
-      }
-      currentCustomer.cantCredits += 1;
-      updateCustomer(currentCustomer);
-      sectionShowCreditInfo.style.display = "none";
-      toast.fire({
-         icon: icons.success,
-         title: "Credito exitoso",
-         position: position.topEnd
-      })
-      spinner(false)
-      getMenu()
-   });
+   buttonAproveCredit.disabled = false;
+   buttonAproveCredit.addEventListener("click", sendCredit);
 
    buttonRejectCredit.addEventListener("click", () => {
       sectionShowCreditInfo.style.display = "none";
@@ -145,17 +135,42 @@ const showCredit = (credit) => {
 
 };
 
+const sendCredit = async () => {
+   console.log("Precionaste el boton de aprovado")
+
+   spinner()
+   let auxCredit = await saveCredit(currentCustomer.id, credit)
+   if (auxCredit == undefined) {
+      toast.fire({
+         icon: icons.error,
+         title: "No se pudo generar el credito intentelo de nuevo",
+         position: position.topEnd
+      })
+      spinner(false)
+      return;
+   }
+   currentCustomer.cantCredits += 1;
+   await updateCustomer(currentCustomer);
+   sectionShowCreditInfo.style.display = "none";
+   toast.fire({
+      icon: icons.success,
+      title: "Credito exitoso",
+      position: position.topEnd
+   })
+   spinner(false)
+   getMenu()
+}
 
 
 const creditList = async () => {
    spinner()
    let aux = document.getElementById("divCreditList");
    if (aux != null)
-      aux.innerHTML=""
+      aux.innerHTML = ""
    sectionMenu.style.display = "none";
    sectionCreditList.style.display = "";
    let credits = await listCredit(currentCustomer.id)
-   if(credits.length == 0){
+   if (credits.length == 0) {
       alert.fire({
          icon: icons.info,
          title: "No tiene Creditos con nosotros",
@@ -213,7 +228,7 @@ const getCustomerInfo = async () => {
       icon = icons.success
    }
    currentCustomer = customer;
-   localStorage.setItem('currentCustomer', JSON.stringify(customer))
+   localStorage.setItem('currentCustomerID', JSON.stringify(customer.id))
    sectionLogin.style.display = "none";
    sectionMenu.style.display = "";
    toast.fire({

@@ -55,3 +55,11 @@ export const findByDni = (dni) => {
          );
       })
 }
+export const findById = (id) => {
+
+   return fetch(`${urlCustomer}${id}`)
+      .then((resp) => resp.json())
+      .then((data) => {
+         return data
+      })
+}

@@ -1,9 +1,12 @@
 
 import { URLAPI } from '../utils/constantes.js';
-const urlCustomer = `${URLAPI}customer/`
+const urlCustomer = `${URLAPI}customer`
 
 export const save = (idCustomer,credit) => {
+
+   console.log(idCustomer,credit)
     const urlCredit =`${urlCustomer}/${idCustomer}/credit/`
+    console.log(urlCredit)
     return fetch(urlCredit, {
        method: 'POST',
        body: JSON.stringify(
