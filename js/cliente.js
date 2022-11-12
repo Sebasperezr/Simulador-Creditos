@@ -10,21 +10,29 @@ const buttonGetCredit = document.getElementById("buttonGetCredit");
 const buttonListCredit = document.getElementById("buttonCreditList");
 const buttonGetMenu1 = document.getElementById("buttonGetMenu1");
 const buttonGetMenu2 = document.getElementById("buttonGetMenu2");
-
-
-
+const buttonExit1 = document.getElementById("buttonExit1");
+const buttonExit2 = document.getElementById("buttonExit2");
+const buttonExit3 = document.getElementById("buttonExit3");
 
 const sectionMenu = document.getElementById("menu");
 const sectionLogin = document.getElementById("login");
 const sectionCreditList = document.getElementById("creditList");
 const sectionGetCredit = document.getElementById("getCredit");
 const sectionShowCreditInfo = document.getElementById("showCreditInfo");
-
 const instalmentsRange = document.getElementById("installmentsRange");
 
-
-let currentCustomer;
+let currentCustomer = undefined;
 let credit;
+
+if(localStorage.getItem('currentCustomer')){
+   currentCustomer = JSON.parse(localStorage.getItem('currentCustomer'))
+ }
+
+ if(currentCustomer != undefined){
+   sectionMenu.style.display="";
+   sectionLogin.style.display="none";
+   console.log(currentCustomer)
+ }
 
 
 
@@ -147,13 +155,10 @@ const creditList = async () => {
    sectionMenu.style.display = "none";
    sectionCreditList.style.display = "";
    let credits = await listCredit(currentCustomer.id)
-   console.log(credits)
    if(credits.length == 0){
-      console.log("Es igual ")
       alert.fire({
          icon: icons.info,
          title: "No tiene Creditos con nosotros",
-       
       })
       spinner(false)
       return;
@@ -208,6 +213,7 @@ const getCustomerInfo = async () => {
       icon = icons.success
    }
    currentCustomer = customer;
+   localStorage.setItem('currentCustomer', JSON.stringify(customer))
    sectionLogin.style.display = "none";
    sectionMenu.style.display = "";
    toast.fire({
@@ -238,6 +244,12 @@ const getMenu = () => {
    sectionCreditList.style.display = "none";
    sectionGetCredit.style.display = "none";
 }
+const exit = () => {
+   localStorage.clear()
+   window.location.href = "../index.html";
+}
+
+
 
 
 
@@ -246,6 +258,10 @@ buttonGetMenu2.addEventListener("click", getMenu);
 buttonLogin.addEventListener("click", getCustomerInfo);
 buttonGetCredit.addEventListener("click", getCredit);
 buttonListCredit.addEventListener("click", creditList);
+buttonExit1.addEventListener("click", exit);
+buttonExit2.addEventListener("click", exit);
+buttonExit3.addEventListener("click", exit);
+
 
 instalmentsRange.addEventListener("mousemove", function () { document.getElementById("numInstallments").innerHTML = instalmentsRange.value });
 instalmentsRange.addEventListener("touchmove", function () { document.getElementById("numInstallments").innerHTML = instalmentsRange.value });

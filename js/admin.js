@@ -3,13 +3,12 @@
 import { spinner } from './utils/spinner.js';
 import { list } from './service/customerService.js';
 import { list as listCreditsAjax} from './service/creditService.js';
+import { alert, icons, position, toast } from './utils/alert.js';
+
+
 const tbodyCustomerList = document.getElementById("tbodyCustomerList");
 const sectionCreditList = document.getElementById("creditList");
 const sectionCustomerList = document.getElementById("customerList");
-
-
-
-
 
 const  getCustomerList = async () => {
    sectionCustomerList.style.display=""
@@ -35,14 +34,21 @@ const  getCustomerList = async () => {
 }
 
 const getCredits = async (idCustomer)=>{
+   spinner();
    sectionCreditList.style.display=""
    sectionCustomerList.style.display="none"
 
    let aux = document.getElementById("crediList");
    if (aux != null)
       aux.innerHTML=""
-   spinner();
+
    const creditList = await listCreditsAjax(idCustomer)
+   if(creditList.length == 0){
+      alert.fire({
+         icon: icons.info,
+         title: "No tiene Creditos con nosotros",
+      })
+   }
    spinner(false);
 
    creditList.forEach(element => {
