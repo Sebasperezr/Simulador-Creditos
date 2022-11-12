@@ -1,8 +1,8 @@
 
 
 import { spinner } from './utils/spinner.js';
-import { get } from './service/customerService.js';
-import { get as getCreditsAjax} from './service/creditService.js';
+import { list } from './service/customerService.js';
+import { list as listCreditsAjax} from './service/creditService.js';
 const tbodyCustomerList = document.getElementById("tbodyCustomerList");
 const sectionCreditList = document.getElementById("creditList");
 const sectionCustomerList = document.getElementById("customerList");
@@ -18,7 +18,7 @@ const  getCustomerList = async () => {
    if (aux != null) aux.innerHTML=""
 
    spinner()   
-   const customers = await get()
+   const customers = await list()
    spinner(false) 
    customers.forEach(element => {
       let creditList = document.createElement("tr")
@@ -42,7 +42,7 @@ const getCredits = async (idCustomer)=>{
    if (aux != null)
       aux.innerHTML=""
    spinner();
-   const creditList = await getCreditsAjax(idCustomer)
+   const creditList = await listCreditsAjax(idCustomer)
    spinner(false);
 
    creditList.forEach(element => {

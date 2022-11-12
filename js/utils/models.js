@@ -1,14 +1,6 @@
-let customers = [];
-let credits = [];
 
-if(localStorage.getItem('customers')){
-  customers = JSON.parse(localStorage.getItem('customers'))
-}
-if(localStorage.getItem('credits')){
-  credits = JSON.parse(localStorage.getItem('credits'))
-}
  class Customer {
-    constructor(name, id, cantCredits, dni) {
+    constructor(name, dni, cantCredits, id) {
       this.name = name;
       this.id = id;
       this.cantCredits = cantCredits;
@@ -30,5 +22,5 @@ if(localStorage.getItem('credits')){
     }
   
   }
- export{Credit,customers,credits};
+ export{Credit};
  export{Customer};

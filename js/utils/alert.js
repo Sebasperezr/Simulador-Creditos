@@ -19,16 +19,21 @@ export const position = {
 
 export const toast = Swal.mixin({
     toast: true,
-
     showConfirmButton: false,
     timer: 5000,
     timerProgressBar: true,
+
     didOpen: (toast) => {
         toast.addEventListener('mouseenter', Swal.stopTimer)
         toast.addEventListener('mouseleave', Swal.resumeTimer)
     }
 })
 
-
+export const alert = Swal.mixin({
+    showConfirmButton: true,
+    confirmButtonColor:'#000'
+    
+    
+})
 
 

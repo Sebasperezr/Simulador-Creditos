@@ -5,29 +5,53 @@
 import { URLAPI } from '../utils/constantes.js';
 const urlCustomer = `${URLAPI}customer/`
 
-export const post = (customer) => {
+export const save = (customer) => {
 
    return fetch(urlCustomer, {
       method: 'POST',
-      body: JSON.stringify({
-         name: customer.name,
-         cantCredits: customer.cantCredits,
-         dni: customer.dni,
-      }),
+      body: JSON.stringify(
+       customer
+      ),
       headers: {
          'Content-type': 'application/json; charset=UTF-8',
       },
    })
       .then((response) => response.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+         return data
+      })
+}
+export const update = (customer) => {
+   return fetch(`${urlCustomer}${customer.id}`, {
+      method: 'PUT',
+      body: JSON.stringify(
+       customer
+      ),
+      headers: {
+         'Content-type': 'application/json; charset=UTF-8',
+      },
+   })
+      .then((response) => response.json())
+      .then((data) => {
+         return data
+      })
 }
 
+export const list = (id = "") => {
 
-export const get =  (id = "") => {
+   return fetch(`${urlCustomer}${id}`)
+      .then((resp) => resp.json())
+      .then((data) => {
+         return data
+      })
+}
+export const findByDni = (dni) => {
 
-    return fetch(`${urlCustomer}${id}`)
-        .then((resp) => resp.json())
-        .then((data) => {
-            return data
-        })
+   return fetch(urlCustomer)
+      .then((resp) => resp.json())
+      .then((data) => {
+         return data.find(element =>
+            element.dni == dni
+         );
+      })
 }

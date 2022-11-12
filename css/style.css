@@ -80,7 +80,8 @@ header {
     color: white;
     margin-top: 25px;
     text-align: center;
-    padding-block: 7px;
+    padding-top: 3%;
+    padding-inline: 5px;
     border-radius: 5px;
 
 }

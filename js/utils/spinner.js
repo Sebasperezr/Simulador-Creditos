@@ -5,11 +5,9 @@ export const spinner = (status = true) => {
     }
 
     if (status) {
-        console.log(" vacio")
         aux.style.display = "flex"
     }
     else {
-        console.log(" none")
         aux.style.display = "none"
     }
 
