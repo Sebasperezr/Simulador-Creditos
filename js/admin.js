@@ -24,8 +24,8 @@ const  getCustomerList = async () => {
       let creditList = document.createElement("tr")
       creditList.id = `tr${element.id}`;
       creditList.innerHTML = `
-      <th scope="row">${element.dni}</th>
-      <td>${element.name}</td>
+      <th scope="row">${element.name}</th>
+      <td>${element.dni}</td>
       <td>${element.cantCredits}</td>
       <td><button id="btn${element.id}" value="${element.id}" class="btn btn-dark">Creditos</button></td>`
       document.getElementById("tbodyCustomerList").appendChild(creditList)
