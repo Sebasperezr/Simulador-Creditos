@@ -5,14 +5,14 @@ import { INTEREST, MAXINSTALLMENTS, MINISTALLMENTS } from './utils/constantes.js
 import { findByDni, save as saveCustomer, update as updateCustomer, findById } from './service/customerService.js';
 import { save as saveCredit, list as listCredit } from './service/creditService.js';
 
+
+//Elementos globales del DOM
 const buttonLogin = document.getElementById("buttonLogin");
 const buttonGetCredit = document.getElementById("buttonGetCredit");
 const buttonListCredit = document.getElementById("buttonCreditList");
 const buttonGetMenu1 = document.getElementById("buttonGetMenu1");
 const buttonGetMenu2 = document.getElementById("buttonGetMenu2");
-const buttonExit1 = document.getElementById("buttonExit1");
-const buttonExit2 = document.getElementById("buttonExit2");
-const buttonExit3 = document.getElementById("buttonExit3");
+const buttonExit = document.getElementById("buttonExit");
 const instalmentsRange = document.getElementById("installmentsRange");
 
 const sectionMenu = document.getElementById("menu");
@@ -28,7 +28,6 @@ let credit;
 
 
 const validActiveSesion = async () => {
-   console.log(JSON.parse(localStorage.getItem('currentCustomerID')))
    if (localStorage.getItem('currentCustomerID')) {
       let customerId = JSON.parse(localStorage.getItem('currentCustomerID'))
       currentCustomer = await findById(customerId)
@@ -36,15 +35,12 @@ const validActiveSesion = async () => {
       if (currentCustomer != undefined) {
          sectionMenu.style.display = "";
          sectionLogin.style.display = "none";
-         console.log(currentCustomer)
       }
    }
 }
 validActiveSesion()
 
 
-// const computedLocale = Intl.Locale.toString;
-// let currencyLocale = Intl.NumberFormat("computedLocale");
 
 
 const getCredit = () => {
@@ -136,8 +132,6 @@ const showCredit = (credit) => {
 };
 
 const sendCredit = async () => {
-   console.log("Precionaste el boton de aprovado")
-
    spinner()
    let auxCredit = await saveCredit(currentCustomer.id, credit)
    if (auxCredit == undefined) {
@@ -267,16 +261,13 @@ const exit = () => {
 
 
 
-
+//Eventos
 buttonGetMenu1.addEventListener("click", getMenu);
 buttonGetMenu2.addEventListener("click", getMenu);
 buttonLogin.addEventListener("click", getCustomerInfo);
 buttonGetCredit.addEventListener("click", getCredit);
 buttonListCredit.addEventListener("click", creditList);
-buttonExit1.addEventListener("click", exit);
-buttonExit2.addEventListener("click", exit);
-buttonExit3.addEventListener("click", exit);
-
+buttonExit.addEventListener("click", exit);
 
 instalmentsRange.addEventListener("mousemove", function () { document.getElementById("numInstallments").innerHTML = instalmentsRange.value });
 instalmentsRange.addEventListener("touchmove", function () { document.getElementById("numInstallments").innerHTML = instalmentsRange.value });

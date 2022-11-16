@@ -17,6 +17,7 @@ export const position = {
     bottomEnd:'bottom-end'
 }
 
+//Alert temporal contimer y progresive bar
 export const toast = Swal.mixin({
     toast: true,
     showConfirmButton: false,
@@ -29,11 +30,11 @@ export const toast = Swal.mixin({
     }
 })
 
+
+//Alert Con boton de confirmacion
 export const alert = Swal.mixin({
     showConfirmButton: true,
     confirmButtonColor:'#000'
-    
-    
 })
 
 

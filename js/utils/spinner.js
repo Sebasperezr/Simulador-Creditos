@@ -1,3 +1,6 @@
+
+
+//Nos permite controlar cunado activuar o desactivar el Spinner por defecto al llamar la funcion se activa 
 export const spinner = (status = true) => {
     let aux = document.getElementById("spinner");
     if (aux == null) {
@@ -14,8 +17,9 @@ export const spinner = (status = true) => {
 
 }
 
-const create = () => {
 
+//Crea el snipnner, es llamado desde la logica del Spinner
+const create = () => {
     let spinner = document.createElement("div")
     spinner.className = "justify-content-center";
     spinner.id = "spinner";

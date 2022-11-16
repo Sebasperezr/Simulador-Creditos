@@ -1,3 +1,6 @@
+
+//Contantes que se usan en la aplicacion
+
 const SALIR = "SALIR";
 const INTEREST = 1.2;
 const MAXINSTALLMENTS = 60;
