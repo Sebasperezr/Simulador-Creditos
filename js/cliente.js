@@ -271,4 +271,3 @@ buttonExit.addEventListener("click", exit);
 
 instalmentsRange.addEventListener("mousemove", function () { document.getElementById("numInstallments").innerHTML = instalmentsRange.value });
 instalmentsRange.addEventListener("touchmove", function () { document.getElementById("numInstallments").innerHTML = instalmentsRange.value });
-instalmentsRange.addEventListener("change", function () { document.getElementById("numInstallments").innerHTML = instalmentsRange.value });
