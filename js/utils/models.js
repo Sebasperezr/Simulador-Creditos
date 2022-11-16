@@ -1,4 +1,6 @@
 
+
+//Son las clases que se usan en el proyecto 
  class Customer {
     constructor(name, dni, cantCredits, id) {
       this.name = name;
@@ -8,6 +10,7 @@
 
     }
   }
+
 
   class Credit {
     constructor(requestedValue = 0, interestPayable = 0, installments = 0, totalToPay = 0, valueInstallments = 0, idCustomer = 0,interest=0) {
