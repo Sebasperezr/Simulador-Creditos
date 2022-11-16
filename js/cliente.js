@@ -4,6 +4,7 @@ import { spinner } from './utils/spinner.js';
 import { INTEREST, MAXINSTALLMENTS, MINISTALLMENTS } from './utils/constantes.js';
 import { findByDni, save as saveCustomer, update as updateCustomer, findById } from './service/customerService.js';
 import { save as saveCredit, list as listCredit } from './service/creditService.js';
+import { toCurrency } from './utils/formater.js';
 
 
 //Elementos globales del DOM
@@ -42,21 +43,19 @@ validActiveSesion()
 
 
 
-
 const getCredit = () => {
    document.getElementById("numInstallments").innerHTML = MINISTALLMENTS;
    credit = new Credit();
    let requestedValue = document.getElementById("requestedValue");
    sectionGetCredit.style.display = "";
-
    instalmentsRange.min = MINISTALLMENTS;
    instalmentsRange.value = MINISTALLMENTS;
    instalmentsRange.max = MAXINSTALLMENTS;
    sectionMenu.style.display = "none";
    sectionGetCredit.style.display = "";
-
    requestedValue.value = 0;
    let buttonNextGetCredit = document.getElementById("buttonNextGetCredit");
+
    buttonNextGetCredit.addEventListener("click", async () => {
       await calculateCredit(requestedValue.value, instalmentsRange.value);
       showCredit(credit)
@@ -91,13 +90,13 @@ const showCredit = (credit) => {
             </div>
             <div class="mb-3 col-12 col-sm-6">
                <label for="requestedValueR" class="form-label">Solicitado</label>
-               <input type="number" class="form-control" id="requestedValueR" value="${credit.requestedValue}"
+               <input type="text" class="form-control" id="requestedValueR" value="${toCurrency(credit.requestedValue)}"
                   disabled>
             </div>
 
             <div class="mb-3 col-12 col-sm-6">
                <label for="totalToPay" class="form-label">Total a Pagar</label>
-               <input type="number" class="form-control" id="totalToPay" value="${credit.totalToPay}" disabled>
+               <input type="text" class="form-control" id="totalToPay" value="${toCurrency(credit.totalToPay)}" disabled>
             </div>
 
             <div class="mb-3 col-6 col-sm-3">
@@ -107,14 +106,14 @@ const showCredit = (credit) => {
 
             <div class="mb-3 col-6 col-sm-3 ">
                <label for="installments" class="form-label">N° cuotas</label>
-               <input type="number" class="form-control" id="installments" value="${credit.installments}"
+               <input type="text" class="form-control" id="installments" value="${credit.installments}"
                   disabled>
             </div>
 
             <div class="mb-3 col-12 col-sm-6">
                <label for="valueInstallment" class="form-label">Valor de la Cuota</label>
-               <input type="number" class="form-control" id="valueInstallment"
-                  value="${credit.valueInstallments}" disabled>
+               <input type="text" class="form-control" id="valueInstallment"
+                  value="${toCurrency(credit.valueInstallments)}" disabled>
             </div>`
    document.getElementById("creditInfoFather").appendChild(creditInfo)
 
@@ -176,13 +175,13 @@ const creditList = async () => {
       if (element.idCustomer == currentCustomer.id) {
          let creditList = document.createElement("div")
          creditList.id = "cardCredit";
-         creditList.className = "col-12  col-md-3  m-1 p-1"
-         creditList.innerHTML = `<div class="card">
-            <h5 class="card-title">$ ${element.totalToPay} </h5>
+         creditList.className = "col-12  col-md-3  m-1"
+         creditList.innerHTML = `<div class="card p-3">
+            <h5 class="card-title">$ ${toCurrency(element.totalToPay,"$")} </h5>
             <h6 class="card-subtitle mb-1 text-muted">Total a pagar</h6>
-            <p class="card-text mb-0">Monto desembolsado: $ ${element.requestedValue} </p>
+            <p class="card-text mb-0">Monto desembolsado: ${toCurrency(element.requestedValue,"$")} </p>
             <p class="card-text mb-0">N° cuotas: ${element.installments} </p>
-            <p class="card-text mb-0">Valor cuota: $ ${element.valueInstallments}</p>
+            <p class="card-text mb-0">Valor cuota: $ ${toCurrency(element.valueInstallments,"$")}</p>
             <p class="card-text mb-0">Interes: ${element.interest}% </p>
       </div>`
 
@@ -257,8 +256,6 @@ const exit = () => {
    localStorage.clear()
    window.location.href = "../index.html";
 }
-
-
 
 
 //Eventos

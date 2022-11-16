@@ -4,7 +4,7 @@ import { spinner } from './utils/spinner.js';
 import { list } from './service/customerService.js';
 import { list as listCreditsAjax} from './service/creditService.js';
 import { alert, icons} from './utils/alert.js';
-
+import { toCurrency } from './utils/formater.js';
 //Elementos del DOM
 const tbodyCustomerList = document.getElementById("tbodyCustomerList");
 const sectionCreditList = document.getElementById("creditList");
@@ -62,14 +62,14 @@ const getCredits = async (idCustomer)=>{
 
       let creditList = document.createElement("div")
       creditList.id = "cardCredit";
-      creditList.className = "card col-sm-4 col-md-4 col-lg-3 col-xl-2  m-2 p-3 "
+      creditList.className = "card col-sm-4 col-md-4 col-lg-3 col-xl-2  m-1 p-3"
 
-      creditList.innerHTML = '    <h5 class="card-title">$'+element.totalToPay+'</h5>'
-         + '    <h6 class="card-subtitle mb-2 text-muted">Total a pagar</h6>'
-         + '    <p class="card-text mb-0">Monto desembolsado: $'+element.requestedValue+' </p>'
-         + '    <p class="card-text mb-0">N° cuotas: '+element.installments+'</p>'
-         + '    <p class="card-text mb-0">Valor cuota: $'+element.valueInstallments+'</p>'
-         + '    <p class="card-text mb-0">Interes: '+element.interest+'% </p>'
+      creditList.innerHTML = `<h5 class="card-title">${toCurrency(element.totalToPay,"$")}</h5>
+             <h6 class="card-subtitle mb-2 text-muted">Total a pagar</h6>
+             <p class="card-text mb-0">Monto desembolsado: ${toCurrency(element.requestedValue,"$")} </p>
+             <p class="card-text mb-0">N° cuotas: ${element.installments}</p>
+             <p class="card-text mb-0">Valor cuota: ${toCurrency(element.valueInstallments,"$")}</p>
+             <p class="card-text mb-0">Interes: ${element.interest}% </p>`
       
          document.getElementById("crediList").appendChild(creditList)
    });
